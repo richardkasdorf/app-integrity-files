@@ -1,5 +1,6 @@
-from app.services.hash_service import gerar_hash_arquivo
-import sqlite3
+from crypto import gerar_hash_arquivo
+import sqlite3, os, sys
+
 
 def verificar_integridade(nome_arquivo, caminho):
     conn = sqlite3.connect("registros.db")

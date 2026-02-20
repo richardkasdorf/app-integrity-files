@@ -1,45 +1,39 @@
-# from sqlalchemy.orm import Session
-# from app.repositories.file_repository import FileRepository
-
-
-# class IntegrityService:
-
-#     @staticmethod
-#     def registrar_arquivo(db: Session, nome: str, hash_arquivo: str):
-#         return FileRepository.salvar(db, nome, hash_arquivo)
-
-
-from fastapi import APIRouter
+from sqlalchemy.orm import Session
 from app.services.hash_service import gerar_hash_arquivo
-import sqlite3
+from app.repositories.file_repository import FileRepository
+from app.core.utils import get_upload_path
+import os
 
-router = APIRouter()
+class IntegrityService:
 
-def verificar_integridade(nome_arquivo, caminho):
-    conn = sqlite3.connect("registros.db")
-    cursor = conn.cursor()
+    @staticmethod
+    def verificar_integridade(db: Session, nome_arquivo: str):
+        registro = FileRepository.buscar_ultimo_por_nome(db, nome_arquivo)
 
-    cursor.execute(
-        "SELECT hash FROM registros WHERE nome=? ORDER BY id DESC LIMIT 1",
-        (nome_arquivo,)
-    )
+        if not registro:
+            return {
+                "status": "nao_registrado",
+                "mensagem": "Arquivo não registrado"
+            }
 
-    resultado = cursor.fetchone()
-    conn.close()
+        caminho = get_upload_path(nome_arquivo)
 
-    if not resultado:
-        return "Arquivo não registrado"
+        if not os.path.exists(caminho):
+            return {
+                "status": "nao_encontrado",
+                "mensagem": "Arquivo não encontrado na pasta uploads"
+            }
 
-    hash_registrado = resultado[0]
-    hash_atual = gerar_hash_arquivo(caminho)
+        hash_atual = gerar_hash_arquivo(caminho)
 
-    if hash_registrado == hash_atual:
-        return "Arquivo íntegro ✅"
-    else:
-        return "ALERTA: arquivo adulterado ⚠️"
+        if registro.hash == hash_atual:
+            return {
+                "status": "integro",
+                "mensagem": "Arquivo íntegro ✅"
+            }
+        else:
+            return {
+                "status": "adulterado",
+                "mensagem": "ALERTA: arquivo adulterado ⚠️"
+            }
 
-
-print(verificar_integridade(
-    "testando integridade 17022026.txt",
-    "testando integridade 17022026.txt"
-))

@@ -1,11 +1,10 @@
 
 
-# Consultar o sql
+# Consultar o sql / banco de dados
 
 
 from sqlalchemy.orm import Session
 from app.db.models import Registro
-
 
 class FileRepository:
 
@@ -19,3 +18,13 @@ class FileRepository:
         db.commit()
         db.refresh(registro)
         return registro
+
+
+    @staticmethod
+    def buscar_ultimo_por_nome(db: Session, nome: str):
+        return (
+            db.query(Registro)
+            .filter(Registro.nome == nome)
+            .order_by(Registro.id.desc())
+            .first()
+        )
