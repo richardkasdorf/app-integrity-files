@@ -1,18 +1,13 @@
-
-
-# Consultar o sql / banco de dados
-
-
 from sqlalchemy.orm import Session
-from app.db.models import Registro
+from db.models import Registro
 
 class FileRepository:
 
     @staticmethod
-    def salvar(db: Session, nome_arquivo: str, hash_arquivo: str):
+    def criar_registro(db: Session, nome: str, hash: str):
         registro = Registro(
-            nome=nome_arquivo,
-            hash=hash_arquivo
+            nome=nome,
+            hash=hash
         )
         db.add(registro)
         db.commit()

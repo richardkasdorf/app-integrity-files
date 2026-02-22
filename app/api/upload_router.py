@@ -1,10 +1,10 @@
 from fastapi import APIRouter, UploadFile, File, Depends
 from sqlalchemy.orm import Session
 import shutil, os
-from app.db.database import get_db
-from app.services.hash_service import gerar_hash_arquivo
-from app.services.integrity_service import IntegrityService
-from app.core.utils import get_project_root
+from db.database import get_db
+from services.hash_service import gerar_hash_arquivo
+from services.integrity_service import IntegrityService
+from core.utils import get_project_root
 
 router = APIRouter(prefix="/uploads", tags=["Uploads"])
 

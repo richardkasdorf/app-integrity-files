@@ -7,10 +7,9 @@
 
 
 from fastapi import FastAPI
-from app.db.database import engine
-from app.db.models import Base
-from app.api.upload_router import router as upload_router
-from app.api.verify_router import router as verify_router
+from db.database import engine, Base
+from api.upload_router import router as upload_router
+from api.verify_router import router as verify_router
 
 app = FastAPI()
 

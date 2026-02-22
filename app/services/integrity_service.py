@@ -1,10 +1,14 @@
 from sqlalchemy.orm import Session
-from app.services.hash_service import gerar_hash_arquivo
-from app.repositories.file_repository import FileRepository
-from app.core.utils import get_upload_path
+from services.hash_service import gerar_hash_arquivo
+from repositories.file_repository import FileRepository
+from core.utils import get_upload_path
 import os
 
 class IntegrityService:
+
+    @staticmethod
+    def registrar_arquivo(db: Session, nome_arquivo: str, hash_arquivo: str):
+        return FileRepository.criar_registro(db, nome_arquivo, hash_arquivo)
 
     @staticmethod
     def verificar_integridade(db: Session, nome_arquivo: str):

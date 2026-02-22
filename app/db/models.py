@@ -3,9 +3,11 @@
 #estrutura das tabelas
 
 
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, DateTime
 from datetime import datetime
-from app.db.database import Base
+from .database import Base
+
+data = Column(DateTime, default=datetime.utcnow)
 
 class Registro(Base):
     __tablename__ = "registros"

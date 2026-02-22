@@ -1,3 +1,32 @@
+# Integrity hash Service Architecture 
+
+
+## Overview
+
+
+## Architecture Layers
+
+
+### API Layer
+
+
+### Services Layer
+
+
+### Repository Layer
+
+
+### Data Base Layer
+
+
+### Core Layer
+
+
+### Test Layer
+
+
+## Project Structure
+
 projeto_integridade/
 │
 ├── app/
@@ -29,7 +58,3 @@ projeto_integridade/
 ├── data/
 ├── pytest.ini
 └── README.md
-
-
-
-Ctrl + K, depois Ctrl + C para comentar (e Ctrl + K, Ctrl + U para remover)

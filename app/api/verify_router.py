@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from app.db.database import get_db
-from app.services.integrity_service import IntegrityService
+from db.database import get_db
+from services.integrity_service import IntegrityService
 
 router = APIRouter(prefix="/verify", tags=["Verificação"])
 
