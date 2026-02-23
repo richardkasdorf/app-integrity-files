@@ -5,9 +5,12 @@ class FileRepository:
 
     @staticmethod
     def criar_registro(db: Session, nome: str, hash: str):
+        ultimo = FileRepository.buscar_ultimo_por_nome(db, nome)
+        nova_versao = 1 if not ultimo else ultimo.versao + 1
         registro = Registro(
             nome=nome,
-            hash=hash
+            hash=hash,
+            versao=nova_versao
         )
         db.add(registro)
         db.commit()

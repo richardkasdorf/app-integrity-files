@@ -17,7 +17,7 @@ class IntegrityService:
         if not registro:
             return {
                 "status": "nao_registrado",
-                "mensagem": "Arquivo não registrado"
+                "mensagem": "Arquivo não registrado no banco"
             }
 
         caminho = get_upload_path(nome_arquivo)
@@ -33,11 +33,20 @@ class IntegrityService:
         if registro.hash == hash_atual:
             return {
                 "status": "integro",
-                "mensagem": "Arquivo íntegro ✅"
+                "mensagem": "Arquivo íntegro ✅",
+                "id_registro": registro.id
             }
-        else:
-            return {
-                "status": "adulterado",
-                "mensagem": "ALERTA: arquivo adulterado ⚠️"
-            }
+        
+        novo_registro = FileRepository.criar_registro(
+            db,
+            nome_arquivo,
+            hash_atual
+        )
+        
+        return {
+            "status": "adulterado",
+            "mensagem": "Arquivo modificado e nova versão registrada ⚠️",
+            "id_registro_anterior": registro.id,
+            "id_novo_registro": novo_registro.id
+        }
 
